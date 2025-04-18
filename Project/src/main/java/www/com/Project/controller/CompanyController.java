@@ -1,11 +1,14 @@
 package www.com.Project.controller;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import www.com.Project.entity.CompanyEntity;
 import www.com.Project.service.CompanyService;
 
@@ -33,8 +37,11 @@ public class CompanyController {
 		return companyService.GetOneCompany(id);
 	}
 	@PostMapping("create")
-	public void createe(@RequestBody CompanyEntity companyEntity) {
-		companyService.create(companyEntity);
+	public ResponseEntity<String> createe(@Valid @RequestBody CompanyEntity companyEntity, BindingResult result) {
+		if (result.hasErrors()) {
+			return ResponseEntity.badRequest().body("validation error"+ result.getAllErrors());
+		}
+		return ResponseEntity.ok("Company created succesfully");
 	}
 	@DeleteMapping("/delete/{id}")
 	public void deleete(@PathVariable Long id) {

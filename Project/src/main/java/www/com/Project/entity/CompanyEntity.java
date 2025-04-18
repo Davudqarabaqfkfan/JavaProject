@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "companies")
@@ -12,7 +13,9 @@ public class CompanyEntity {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
+@NotBlank(message = "name of the company can't be empty")
 private String name;
+@NotBlank(message = "direction of this company can't be empty")
 private String direction;
 private String creator;
 public String getName() {

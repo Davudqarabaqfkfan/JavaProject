@@ -1,19 +1,28 @@
 package www.com.Project.entity;
 
+
+
 import jakarta.persistence.Entity;
+
 import jakarta.persistence.GeneratedValue;
 
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+
 @Entity
 @Table(name = "teachers")
 public class TeacherEntity {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 Long id;
+@NotBlank(message = "name can't be empty")
 String name;
+@NotBlank(message = "surname can't be empty")
 String surname;
+@Min(value = 18, message = "min age to be a teacher in this company is 18")
 int age;
 String subjectString;
 Long companyId;
