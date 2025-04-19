@@ -25,6 +25,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import www.com.Project.entity.CompanyEntity;
 import www.com.Project.entity.TeacherEntity;
+import www.com.Project.exception.MyException;
 import www.com.Project.response.TeacherResponse;
 import www.com.Project.service.TeacherService;
 @CrossOrigin(origins = "http://127.0.0.1:5500")
@@ -56,8 +57,8 @@ public void deleete(@PathVariable Long id) {
 }
 @PutMapping("update/{id}")
 @Operation(summary = "Update teacher")
-public TeacherEntity updateeTeacherEntity(@PathVariable Long id, @RequestBody TeacherEntity teacherEntity) {
-	return teacherService.update(id, teacherEntity);
+public Optional<TeacherEntity> updateeTeacherEntity(@PathVariable Long id, @RequestBody TeacherEntity teacherEntity) {
+	return Optional.ofNullable(teacherService.GetOneTeacher(id).orElseThrow(()-> new MyException("error")));
 }
 @GetMapping("/search")
 @Operation(summary = "Search")
