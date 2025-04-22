@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,11 +47,13 @@ public Optional<TeacherEntity> getOneTeacherr(@PathVariable Long id){
 	return teacherService.GetOneTeacher(id);
 }
 @PostMapping("create")
+@PreAuthorize("hasRole('ROLE_USER')")
 @Operation(summary = "Create new teacher")
 public void createe(@Valid @RequestBody TeacherEntity teacherEntity) {
 	teacherService.create(teacherEntity);
 }
 @DeleteMapping("/delete/{id}")
+@PreAuthorize("hasRole('ROLE_USER')")
 @Operation(summary = "Delete teacher by ID")
 public void deleete(@PathVariable Long id) {
 	teacherService.delete(id);
