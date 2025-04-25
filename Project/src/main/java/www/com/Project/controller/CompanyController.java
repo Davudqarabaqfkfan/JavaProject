@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,7 @@ public class CompanyController {
 		return companyService.GetOneCompany(id);
 	}
 	@PostMapping("create")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public ResponseEntity<String> createe(@Valid @RequestBody CompanyEntity companyEntity, BindingResult result) {
 		if (result.hasErrors()) {
 			return ResponseEntity.badRequest().body("validation error"+ result.getAllErrors());
@@ -44,10 +46,12 @@ public class CompanyController {
 		return ResponseEntity.ok("Company created succesfully");
 	}
 	@DeleteMapping("/delete/{id}")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public void deleete(@PathVariable Long id) {
 		companyService.delete(id);
 	}
 	@PutMapping("update/{id}")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public CompanyEntity updateeCompanyEntity(@PathVariable Long id, @RequestBody CompanyEntity companyEntity) {
 		return companyService.update(id, companyEntity);
 	}

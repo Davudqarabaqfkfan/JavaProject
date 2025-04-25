@@ -22,8 +22,5 @@ public class GlobalExceptionHandler {
         });
         return ResponseEntity.badRequest().body(b.toString());
     }
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleAllExceptions(Exception ex){
-    	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
-    }
+
 }

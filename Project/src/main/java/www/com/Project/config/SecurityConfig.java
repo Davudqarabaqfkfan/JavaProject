@@ -1,5 +1,6 @@
 package www.com.Project.config;
 import java.util.HashMap;
+
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.*;
 import org.springframework.security.web.SecurityFilterChain;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,10 +41,8 @@ public class SecurityConfig {
    }
    // Настройка DelegatingPasswordEncoder для обработки паролей с {noop}
    @Bean
-   public PasswordEncoder passwordEncoder() {
-       Map<String, PasswordEncoder> encoders = new HashMap<>();
-       encoders.put("noop", NoOpPasswordEncoder.getInstance());
-       return new DelegatingPasswordEncoder("noop", encoders);
+public PasswordEncoder passwordEncoder() {
+	   return new BCryptPasswordEncoder();
    }
    @Bean
    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
@@ -61,7 +61,12 @@ public class SecurityConfig {
     		    .requestMatchers("/users/register").permitAll()
     		    .requestMatchers("/companies").permitAll()
     		   .requestMatchers("/teachers/get-all").permitAll()
-    		   
+    		   .requestMatchers("/companies/get-all").permitAll()
+    		   .requestMatchers("/teachers/search").permitAll()
+    		   .requestMatchers("/companies/search").permitAll()
+    		   .requestMatchers("/teachers/{id}").permitAll()
+    		   .requestMatchers("/comapnies/{id}").permitAll()
+    		   .requestMatchers("/teachers/{id}/company").permitAll()
              .anyRequest().authenticated()
          )
          .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

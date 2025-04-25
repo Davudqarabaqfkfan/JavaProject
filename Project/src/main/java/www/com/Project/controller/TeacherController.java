@@ -59,6 +59,7 @@ public void deleete(@PathVariable Long id) {
 	teacherService.delete(id);
 }
 @PutMapping("update/{id}")
+@PreAuthorize("hasRole('ROLE_USER')")
 @Operation(summary = "Update teacher")
 public Optional<TeacherEntity> updateeTeacherEntity(@PathVariable Long id, @RequestBody TeacherEntity teacherEntity) {
 	return Optional.ofNullable(teacherService.GetOneTeacher(id).orElseThrow(()-> new MyException("error")));

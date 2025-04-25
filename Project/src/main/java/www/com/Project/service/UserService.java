@@ -1,6 +1,7 @@
 package www.com.Project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import www.com.Project.entity.AuthorityE;
@@ -15,12 +16,14 @@ public class UserService {
 UserRepository userRepository;
 @Autowired
 AuthorityRepository authorityRepository;
+@Autowired
+PasswordEncoder passwordEncoder;
 public void register(Users user) {
 	if (userRepository.existsByUsername(user.getUsername())) {
 		throw new MyException("This usename already exists!!!");
 	}
 
-user.setPassword("{noop}" + user.getPassword());
+user.setPassword(passwordEncoder.encode(user.getPassword()));
 	user.setEnabled(true);
 	userRepository.save(user);
 	
