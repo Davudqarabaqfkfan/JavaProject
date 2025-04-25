@@ -68,6 +68,7 @@ public PasswordEncoder passwordEncoder() {
     		   .requestMatchers("/comapnies/{id}").permitAll()
     		   .requestMatchers("/teachers/{id}/company").permitAll()
              .anyRequest().authenticated()
+
          )
          .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
          .exceptionHandling(ex -> ex
